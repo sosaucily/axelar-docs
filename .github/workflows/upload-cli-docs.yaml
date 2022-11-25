@@ -1,0 +1,54 @@
+name: 'Update cli docs'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'CLI doc version to upload'
+        required: true
+
+jobs:
+  update-cli-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Create new branch
+        run: |  
+          git checkout -b feat/upload-cli-docs-${{ github.event.inputs.version }}
+
+      - name: Create version folder
+        run: |  
+          test -d "pages/cli-docs/${{ github.event.inputs.version }}" || mkdir -p pages/cli-docs/${{ github.event.inputs.version }} 
+
+      - name: Clone axelar-core repo
+        run: |  
+          git clone https://github.com/axelarnetwork/axelar-core.git 
+
+      - name: Copy cli docs to web docs
+        run: |  
+          cp axelar-core/docs/cli/* pages/cli-docs/${{ github.event.inputs.version }}
+          rm -fr axelar-core
+
+      - name: Commit files
+        run: |
+          git config --local user.email "kalid@axelar.network"
+          git config --local user.name "kalid"
+          git add --all
+          git commit -m "chore(upload-cli-docs): upload cli docs version ${{ github.event.inputs.version }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: feat/upload-cli-docs-${{ github.event.inputs.version }}
