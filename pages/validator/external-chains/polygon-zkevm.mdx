@@ -5,22 +5,23 @@ import Tabs from '../../../components/tabs'
 import CodeBlock from '../../../components/code-block'
 import {Tabs as NextraTabs, Tab as NextraTab, Callout} from 'nextra-theme-docs'
 
-Instructions to set up your Polygon ZkEVM node.
+Instructions to set up your Polygon zkEVM node.
 
 <Callout type="info" emoji="ℹ️">
     Note: Currently ARM-based CPUs are not supported
 </Callout>
 
-## Requirements
+### Requirements
 - [Setup your Axelar validator](/validator/setup)
 - Minimum hardware requirements: 4 cores, 32G RAM, 128G Disk with high IOPS.
 -  Ubuntu 22.04, Docker(tested on 22.04)
 - [Official Documentation](https://github.com/0xPolygonHermez/zkevm-node/blob/develop/docs/production-setup.md)
 - [Official Documentation](https://zkevm.polygon.technology/docs/setup-production-node)
 
-## Prerequisites
-This is the most straightforward path to run a zkEVM node, and it's perfectly fine for most use cases, This is quite opinionated, feel free to run this software in a different way, for instance it's not needed to use Docker, you could use the Go and C++ binaries directly.
-Some instructions to install Prerequisites are give here however be sure to check the [official documentation](https://docs.docker.com/compose/install/) to install docker compose in case this doesn't work
+### Prerequisites
+This is the most straightforward path to run a zkEVM node, and it's perfectly fine forfor instance it's not needed to use Docker, you could use the Go and C++ binaries directly.
+Some instructions to install Prerequisites are give here however be sure to check the [official documentation](https://docs.do most use case.
+This is quite opinionated, feel free to run this software in a different way, cker.com/compose/install/) to install docker compose in case this doesn't work.
 ```bash
 sudo apt-get install jq -y
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -28,20 +29,21 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-## Create necessary directories
+### Create config directories
 You can modify the paths as per your requirements
 
 ```bash
-# ZKEVM CONFIG DIR
+# zkEVM CONFIG DIR
 mkdir -p ~/.zkevm/config
-# ZKEVM NODE STATEDB DATA DIR
+# zkEVM NODE STATEDB DATA DIR
 mkdir -p ~/.zkevm/data/statedb
-# ZKEVM NODE POOLDB DATA_ DIR
+# zkEVM NODE POOLDB DATA DIR
 mkdir -p ~/.zkevm/data/pooldb
 ```
-# Get network configurations
-Storing directory paths to variables to reuse
 
+### Setup configs
+
+Setting an env var to run subsequent cmds more easily
 <Tabs tabs={[
     {
         title: "Mainnet",
@@ -69,13 +71,12 @@ curl -L https://github.com/0xPolygonHermez/zkevm-node/releases/latest/download/$
 cp $ZKEVM_DIR/$ZKEVM_NET/example.env $ZKEVM_CONFIG_DIR/.env
 ```
 
-## Set node config
-Update the variables in `$ZKEVM_CONFIG_DIR/.env`
+Update the env vars in `$ZKEVM_CONFIG_DIR/.env`
 ```bash
-# your network could be either mainnet or testnet, we defined this earlier
-ZKEVM_NETWORK=$ZKEVM_NET
-# L1 node rpc
-ZKEVM_NODE_ETHERMAN_URL="your_ETH_rpc"
+# Either set to mainnet or testnet
+ZKEVM_NETWORK=mainnet/testnet
+# Set this to your Ethereum node RPC
+ZKEVM_NODE_ETHERMAN_URL="your Ethereum node's RPC"
 # ZKEVM NODE STATEDB DATA DIR, we created this earlier
 ZKEVM_NODE_STATEDB_DATA_DIR="$HOME/.zkevm/data/statedb"
 # ZKEVM NODE POOLDB DATA_ DIR, we created this earlier
@@ -85,29 +86,31 @@ ZKEVM_NODE_POOLDB_DATA_DIR="$HOME/.zkevm/data/pooldb"
 Note: ZKEVM_NODE_ETHERMAN_URL must point to the validator's ethereum rpc node for security
 </Callout>
 
-## Optional
-We will need to use directories defined earlier when we want to pass config and env file to docker-compose, it would be nice to persist them across sessions
-Add them to your shell file of your choice
+_Optional:_ We will need to use directories defined earlier when we want to pass config and env file to docker-compose, it would be nice to persist them across sessions
+Add them to your shell file, for example `~/.bashrc` or `~/.zshrc`.
 ```bash
 ZKEVM_NET=testnet
 ZKEVM_DIR=~/.zkevm
 ZKEVM_CONFIG_DIR=~/.zkevm/config
 ```
 
-# Start the node
+### Start the node
+
 ```bash
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml up -d
 ```
 This should show an output like this:
 ```bash
    ⠿ b08a0a826235 Pull complete                                                                                                                             90.5s
-   ⠦ d71d159599c3 Downloading [>                                                  ]  
+   ⠦ d71d159599c3 Downloading
    ...
 ```
+
 After it is done, verify by listing the services and their status
 ```bash
 docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml ps
 ```
+
 You should see the following containers running
 ```bash
 docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml ps
@@ -120,10 +123,7 @@ zkevm-state-db      postgres                                   "docker-entrypoin
 zkevm-sync          hermeznetwork/zkevm-node:v0.1.2            "/bin/sh -c '/app/zk…"   zkevm-sync          12 minutes ago      Up 12 minutes             8123/tcp
 ```
 
-
-## Check logs
-
-#### Verify zkevm-rpc logs
+### Check logs
 
 ```bash
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-rpc -f
@@ -146,16 +146,12 @@ zkevm-rpc  | 2023-06-25T05:53:24.064Z   INFO    state/l2block.go:104    new l2 b
 Similarly, you can check logs for other containers too
 
 ```bash
-#check logs
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-pool-db -f
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-prover -f
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-rpc -f
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-state-db -f
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml logs zkevm-sync -f
 ```
-
-
-
 
 ```bash
 curl -H "Content-Type: application/json" -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":83}' http://localhost:8545 | jq
@@ -166,22 +162,17 @@ curl -H "Content-Type: application/json" -X POST --data '{"jsonrpc":"2.0","metho
 }
 ```
 
-
-
-## Verify node sync status
-
-### RPC Endpoint
+## Verify RPC
 
 ```bash
 echo "$(curl -4 ifconfig.co):8545"
 ```
 
-#### Method 1:
 ```bash
 curl -X POST [rpc] -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' | jq
 ```
 
-If you get something like this in response to the above rpc call, your node is setup correctly
+Example Output:
 ```json
 {
   "jsonrpc": "2.0",
@@ -191,12 +182,12 @@ If you get something like this in response to the above rpc call, your node is s
 ```
 You can use a [hex to number convertor](https://www.binaryhexconverter.com/hex-to-decimal-converter) to get the block height
 
-You can compare the block height on your node with explorer ([mainnet](https://wallet.polygon.technology) or [testnet](https://wallet.polygon.technology)),
+You can compare the block height on your node with the explorer ([mainnet](https://zkevm.polygonscan.com) or [testnet](https://testnet-zkevm.polygonscan.com)),
 use your RPC node only when it has caught up with the latest block height.
 
-## Configure vald
+### Configure vald
 
-In order for `vald` to connect to your Zk EVM node, your `rpc_addr` should be exposed in
+In order for `vald` to connect to your Polygon zkEVM node, your `rpc_addr` should be exposed in
 vald's `config.toml`
 
 <NextraTabs items={['Mainnet', 'Testnet']}>
@@ -218,8 +209,8 @@ vald's `config.toml`
     </NextraTab>
 </NextraTabs>
 
-### Common Node Operations
 
+### Common Node Operations
 
 To start
 ```bash
@@ -231,9 +222,7 @@ To stop
 sudo docker-compose --env-file $ZKEVM_CONFIG_DIR/.env -f $ZKEVM_DIR/$ZKEVM_NET/docker-compose.yml down
 ```
 
-To update
-
-To update the zkNode software, repeat the setup steps, being careful not to overwrite the configuration files that you have modified.
+To update the zkEVM node, repeat the setup steps, being careful not to overwrite the configuration files that you have modified.
 
 To stop and wipe out everything
 ```bash
