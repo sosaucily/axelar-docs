@@ -10,3 +10,5 @@ yarn dev
 ```
 
 And visit `localhost:3000` to preview your changes.
+
+This is the legacy code, using nextra.
