@@ -51,7 +51,7 @@ enum GMPStatus {
   DEST_EXECUTE_ERROR = "destination_execute_error",
   DEST_EXECUTING = "executing",
   UNKNOWN_ERROR = "unknown_error",
-  CANNOT_FETCH_STATUS = "cannot_fetch_status"
+  CANNOT_FETCH_STATUS = "cannot_fetch_status",
 }
 interface GasPaidInfo {
   status: GasPaidStatus;
@@ -79,7 +79,7 @@ const provider = new ethers.providers.JsonRpcProvider(
 );
 
 // Optional
-// By default, The sdk uses `window.ethereum` wallet as a sender wallet e.g. Metamask.
+// By default, The sdk uses `window.ethereum` wallet as a sender wallet e.g. MetaMask.
 // This option allows caller to pass `privateKey` or `provider` to the sdk directly
 const senderOptions = { privateKey: "0x", provider };
 
@@ -102,7 +102,7 @@ export interface ApproveGatewayResponse {
 }
 ```
 
-If `success == false` in the response above, there are two options to remediate (below). 
+If `success == false` in the response above, there are two options to remediate (below).
 
 ### Execute manually OR increase gas payment
 
@@ -117,7 +117,7 @@ const provider = new ethers.providers.JsonRpcProvider(
 );
 
 // Optional
-// By default, The sdk uses `window.ethereum` wallet as a sender wallet e.g. Metamask.
+// By default, The sdk uses `window.ethereum` wallet as a sender wallet e.g. MetaMask.
 // This option allows caller to pass `privateKey` or `provider` to the sdk directly
 const senderOptions = { privateKey: "0x", provider };
 
