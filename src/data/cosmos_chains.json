@@ -37,6 +37,12 @@
       "image": "/images/chains/carbon.svg"
     },
     {
+      "id": "celestia",
+      "name": "Celestia",
+      "network_id": "celestia",
+      "image": "/images/chains/celestia.svg"
+    },
+    {
       "id": "comdex",
       "name": "Comdex",
       "network_id": "comdex",
@@ -67,6 +73,12 @@
       "image": "/images/chains/fetch.svg"
     },
     {
+      "id": "haqq",
+      "name": "Haqq",
+      "network_id": "haqq",
+      "image": "/images/chains/haqq.svg"
+    },
+    {
       "id": "ixo",
       "name": "IXO",
       "network_id": "ixo",
@@ -95,6 +107,12 @@
       "name": "Kujira",
       "network_id": "kujira",
       "image": "/images/chains/kujira.svg"
+    },
+    {
+      "id": "migaloo",
+      "name": "Migaloo",
+      "network_id": "migaloo",
+      "image": "/images/chains/migaloo.svg"
     },
     {
       "id": "neutron",
@@ -163,6 +181,12 @@
       "image": "/images/chains/stride.svg"
     },
     {
+      "id": "teritori",
+      "name": "Teritori",
+      "network_id": "teritori",
+      "image": "/images/chains/teritori.svg"
+    },
+    {
       "id": "terra",
       "name": "Terra",
       "network_id": "terra-2",
@@ -205,6 +229,12 @@
       "name": "Burnt",
       "network_id": "burnt-2",
       "image": "/images/chains/burnt.svg"
+    },
+    {
+      "id": "celestia",
+      "name": "Celestia",
+      "network_id": "celestia",
+      "image": "/images/chains/celestia.svg"
     },
     {
       "id": "evmos",
@@ -251,7 +281,7 @@
     {
       "id": "osmosis",
       "name": "Osmosis",
-      "network_id": "osmosis-6",
+      "network_id": "osmosis-7",
       "image": "/images/chains/osmosis.svg"
     },
     {
@@ -263,8 +293,14 @@
     {
       "id": "secret",
       "name": "Secret",
-      "network_id": "secret-snip-3",
+      "network_id": "secret",
       "image": "/images/chains/secret.svg"
+    },
+    {
+      "id": "secret-snip",
+      "name": "Secret-SNIP",
+      "network_id": "secret-snip-3",
+      "image": "/images/chains/secret-snip.svg"
     },
     {
       "id": "sei",
@@ -289,6 +325,12 @@
       "name": "Xpla",
       "network_id": "xpla",
       "image": "/images/chains/xpla.svg"
+    },
+    {
+      "id": "provenance",
+      "name": "provenance",
+      "network_id": "provenance",
+      "image": "/images/chains/provenance.svg"
     }
   ]
 }
