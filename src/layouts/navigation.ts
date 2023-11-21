@@ -23,6 +23,10 @@ export const getNavigation = (section) => {
           children: [
             {
               title: "Overview",
+              href: "/dev/general-message-passing/overview",
+            },
+            {
+              title: "Local Development",
               href: "/dev/general-message-passing/local-dev",
             },
             {
@@ -284,6 +288,7 @@ export const getNavigation = (section) => {
       },
       { title: "Security Overview", href: "/learn/security" },
       { title: "Interchain Transaction Duration", href: "/learn/txduration" },
+      { title: "EVM Contract Governance", href: "/learn/evm-governance" },
       {
         title: "CLI",
         children: [
