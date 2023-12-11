@@ -594,3 +594,8 @@ astro-island button {
     z-index: 5;
   }
 }
+@media (max-width: 1000px) {
+  .resource-grid {
+    grid-template-columns: none;
+  }
+}
